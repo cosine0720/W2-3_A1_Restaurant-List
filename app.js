@@ -1,8 +1,20 @@
 const express = require('express')
-const app = express()
 const exphbs = require('express-handlebars')
 const restaurantList = require('./restaurant.json')
+
+const app = express()
 const port = 3000
+
+const mongoose = require('mongoose')
+mongoose.connect(process.env.MONGODB_URI, { useNewUrlParser: true, useUnifiedTopology: true })
+
+const db = mongoose.connection
+db.on('error', () => {
+  console.log('mongodb error!')
+})
+db.once('open', () => {
+  console.log('mongodb connected!')
+})
 
 // setting template engine
 app.engine('handlebars', exphbs({ defaultLayout: 'main' }))
