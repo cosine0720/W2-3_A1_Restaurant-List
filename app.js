@@ -1,6 +1,6 @@
 const express = require('express')
 const exphbs = require('express-handlebars')
-const restaurantList = require('./restaurant.json')
+const Restaurant = require('./models/restaurant')
 
 const app = express()
 const port = 3000
@@ -25,8 +25,10 @@ app.use(express.static('public'))
 
 // routes setting
 app.get('/', (req, res) => {
-  // past the movie data into 'index' partial template
-  res.render('index', { restaurants: restaurantList.results });
+  Restaurant.find({})
+    .lean()
+    .then(restaurantsData => res.render("index", { restaurantsData }))
+    .catch(err => console.log(err))
 })
 
 app.get('/search', (req, res) => {
