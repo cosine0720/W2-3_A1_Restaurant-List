@@ -54,7 +54,7 @@ app.post('/restaurants', (req, res) => {
     .catch(err => console.log(err))
 })
 
-// 瀏覽特定餐廳
+// 瀏覽餐廳詳細資料
 app.get("/restaurants/:restaurantId", (req, res) => {
   const { restaurantId } = req.params
   Restaurant.findById(restaurantId)
