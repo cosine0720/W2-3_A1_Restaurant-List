@@ -72,11 +72,18 @@ app.get("/restaurants/:restaurantId/edit", (req, res) => {
     .catch(err => console.log(err))
 })
 
-app.post('/restaurants/:restaurantId', (req, res) => {
+app.post('/restaurants/:restaurantId/edit', (req, res) => {
   const { restaurantId } = req.params
   Restaurant.findByIdAndUpdate(restaurantId, req.body)
     .then(() => res.redirect(`/restaurants/${restaurantId}`))
     .catch(err => console.log(err))
+})
+// 刪除特定餐廳
+app.post('/restaurants/:restaurantId/delete', (req, res) => {
+  const { restaurantId } = req.params
+  return Restaurant.findByIdAndDelete(restaurantId)
+    .then(() => res.redirect('/'))
+    .catch(error => console.log(error))
 })
 
 // start and listen on the Express server
