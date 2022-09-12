@@ -1,5 +1,6 @@
 const express = require('express')
 const exphbs = require('express-handlebars')
+const bodyParser = require('body-parser')
 const Restaurant = require('./models/restaurant')
 
 const app = express()
@@ -22,8 +23,9 @@ app.set('view engine', 'handlebars')
 
 // setting static files
 app.use(express.static('public'))
+app.use(bodyParser.urlencoded({ extended: true }))
 
-// routes setting
+// 首頁
 app.get('/', (req, res) => {
   Restaurant.find({})
     .lean()
@@ -31,6 +33,7 @@ app.get('/', (req, res) => {
     .catch(err => console.log(err))
 })
 
+// 搜尋
 app.get('/search', (req, res) => {
   const keyword = req.query.keyword
   const restaurants = restaurantList.results.filter(restaurant => {
@@ -40,10 +43,24 @@ app.get('/search', (req, res) => {
   res.render('index', { restaurants: restaurants, keywords: keyword })
 })
 
-app.get('/restaurants/:restaurant_id', (req, res) => {
+// 新增餐廳頁面
+app.get("/restaurants/new", (req, res) => {
+  res.render("new")
+})
 
-  const restaurant = restaurantList.results[req.params.restaurant_id - 1]
-  res.render('show', { restaurant: restaurant })
+app.post('/restaurants', (req, res) => {
+  Restaurant.create(req.body)
+    .then(() => res.redirect("/"))
+    .catch(err => console.log(err))
+})
+
+// 瀏覽特定餐廳
+app.get("/restaurants/:restaurantId", (req, res) => {
+  const { restaurantId } = req.params
+  Restaurant.findById(restaurantId)
+    .lean()
+    .then(restaurantData => res.render("show", { restaurantData }))
+    .catch(err => console.log(err))
 })
 
 // start and listen on the Express server
