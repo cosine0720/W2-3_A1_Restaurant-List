@@ -26,11 +26,12 @@ header {
   background-color: #fce2cf;
   border-radius: 8px;
   padding: 20px 30px;
+  border: 0;
   margin-top: -60px;
   box-shadow: 0 3px 10px rgba(0, 0, 0, 0.1);
 }
 
-.search-bar-title {
+.search-bar .search-bar-inner h4 {
   color: #9b4b4b;
 }
 
@@ -53,9 +54,8 @@ header {
   box-shadow: 0 3px 10px rgba(0, 0, 0, 0.1);
 }
 
-.card .card-img-top {
+.card img {
   height: 180px;
-  object-fit: cover;
 }
 
 .card-title {
@@ -79,7 +79,7 @@ header {
 }
 
 @media screen and (max-width: 992px) {
-  .card .card-img-top {
+  .card img {
     height: 115px;
   }
 }
@@ -91,7 +91,7 @@ header {
 }
 
 @media screen and (max-width: 575px) {
-  .card .card-img-top {
+  .card img {
     height: auto;
   }
 }
